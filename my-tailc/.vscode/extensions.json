@@ -1,3 +1,10 @@
 {
-  "recommendations": ["Vue.volar"]
+  "recommendations": ["Vue.volar"],
+  "css.lint.unknownAtRules": "ignore",
+  "emmet.includeLanguages": {
+    "postcss": "css"
+  },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  }
 }
