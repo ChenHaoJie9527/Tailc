@@ -1,7 +1,13 @@
 <script setup lang="ts">
+import { ref } from "vue";
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import HelloWorld from "./components/HelloWorld.vue";
+import Modal from "./components/Modal.vue";
+const modalRef = ref(Modal);
+const handleClick = () => {
+  modalRef.value.activeShow();
+};
 </script>
 
 <template>
@@ -14,7 +20,8 @@ import HelloWorld from "./components/HelloWorld.vue";
     </a>
   </div>
   <HelloWorld msg="Vite + Vue" />
-  <button class="btn-indigo">Click me</button>
+  <button class="btn-indigo" @click="handleClick">Click me</button>
+  <Modal ref="modalRef" />
 </template>
 
 <style scoped>
