@@ -10,6 +10,7 @@
   <HelloWorld msg="Vite + Vue" />
   <button class="btn-indigo" @click="handleClick">Click me</button>
   <Modal ref="modalRef" />
+  <LineChart />
 </template>
 
 <script setup lang="ts">
@@ -18,6 +19,7 @@ import { ref } from "vue";
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import HelloWorld from "../components/HelloWorld.vue";
 import Modal from "../components/Modal.vue";
+import LineChart from "../components/LineChart.vue";
 const modalRef = ref(Modal);
 const handleClick = () => {
   modalRef.value.activeShow();

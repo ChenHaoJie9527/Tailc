@@ -1,5 +1,8 @@
 <script setup lang="ts">
-  console.log(import.meta.env);
+import { provide } from "vue";
+import * as echarts from "echarts";
+console.log(import.meta.env);
+provide("echarts", echarts);
 </script>
 
 <template>
