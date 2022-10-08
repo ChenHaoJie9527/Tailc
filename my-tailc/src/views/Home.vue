@@ -1,13 +1,13 @@
-<script setup lang="ts">
-import { provide } from "vue";
-import * as echarts from "echarts";
-console.log(import.meta.env);
-provide("echarts", echarts);
-</script>
-
 <template>
-  <RouterView></RouterView>
+  <LineChart />
 </template>
+
+<script setup lang="ts">
+// This starter template is using Vue 3 <script setup> SFCs
+// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
+import LineChart from "../components/LineChart.vue";
+
+</script>
 
 <style scoped>
 .btn-indigo {
