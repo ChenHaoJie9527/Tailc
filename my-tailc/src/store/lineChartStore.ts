@@ -11,7 +11,6 @@ let oneDay = 24 * 3600 * 1000;
 let value = Math.random() * 1000;
 function randomData() {
   now = new Date(+now + oneDay);
-  console.log("now", now);
   value = value + Math.random() * 21 - 10;
   return {
     name: now.toString(),

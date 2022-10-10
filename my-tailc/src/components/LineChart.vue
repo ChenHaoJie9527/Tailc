@@ -1,14 +1,13 @@
 <template>
-  <div id="main"></div>
   <div id="myChart"></div>
 </template>
 
 <script setup lang="ts">
+import dayjs from "dayjs";
 import { inject, onMounted } from "vue";
-import { lineChartStore } from "../store/lineChartStore";
-import { EchartsType } from "../echarts";
+import { useIntervalFn } from "@vueuse/core";
+import { EchartsOptions, EchartsType } from "../echarts";
 const echarts: EchartsType = inject("echarts")!;
-const store = lineChartStore();
 // 折线图
 const changeType = () => {
   // 获取组件实例
@@ -17,8 +16,12 @@ const changeType = () => {
   function randomData() {
     now = new Date(+now + oneDay);
     value = value + Math.random() * 21 - 10;
+    // const year = dayjs(now).year();
+    // const mon = dayjs(now).month() + 1;
+    // const _day = dayjs(now).date();
+    // console.log(`output`, `${year}/${mon}/${_day}`), `${year}/${mon}/${_day}`;
     return {
-      name: now.toString(),
+      name: dayjs(now).format("YYYY-MM-DD HH:mm:ss"),
       value: [
         [now.getFullYear(), now.getMonth() + 1, now.getDate()].join("/"),
         Math.round(value),
@@ -26,13 +29,14 @@ const changeType = () => {
     };
   }
   let data: any[] = [];
-  let now = new Date(2022, 10, 10);
+  let now = dayjs().toDate();
   let oneDay = 24 * 3600 * 1000;
   let value = Math.random() * 1000;
-  for (var i = 0; i < 1000; i++) {
+  for (var i = 0; i < 365; i++) {
     data.push(randomData());
   }
-  const options = {
+  console.log("data", data);
+  const options: EchartsOptions = {
     title: {
       text: "Dynamic Data & Time Axis",
     },
@@ -40,13 +44,13 @@ const changeType = () => {
       trigger: "axis",
       formatter: function (params) {
         params = params[0];
-        var date = new Date(params.name);
+        const date = new Date(params.name);
         return (
-          date.getDate() +
+          date.getFullYear() +
           "/" +
           (date.getMonth() + 1) +
           "/" +
-          date.getFullYear() +
+          date.getDate() +
           " : " +
           params.value[1]
         );
@@ -76,22 +80,46 @@ const changeType = () => {
         data: data,
       },
     ],
+    dataZoom: [
+      {
+        orient: "horizontal",
+        show: true,
+        realtime: true,
+        height: 15,
+        start: 0,
+        bottom: "4%",
+        zoomLock: true,
+      },
+      {
+        type: "inside",
+        brushSelect: true,
+        start: 0,
+        end: 100,
+        xAxisIndex: [0],
+      },
+    ],
   };
 
   lineChart.setOption(options); // 复制
-  setInterval(function () {
-    for (var i = 0; i < 5; i++) {
-      data.shift();
-      data.push(randomData());
-    }
-    lineChart.setOption({
-      series: [
-        {
-          data: data,
-        },
-      ],
-    });
-  }, 1000);
+  // useIntervalFn(() => {
+  //   for (var i = 0; i < 2; i++) {
+  //     data.shift();
+  //     data.push(randomData());
+  //   }
+  //   //很多朋友可能要接后端接口,把数据替换下来既可以了
+  //   // axios.get('你的url').then(res => {
+  //   //   console.log(res)
+  //   // })
+  //   console.log("data", data);
+  //   lineChart.setOption({
+  //     series: [
+  //       {
+  //         data: data,
+  //       },
+  //     ],
+  //   });
+  // }, 5000);
+
   // 根据页面大小自动响应图标大小
   window.addEventListener("resize", () => {
     lineChart.resize();
@@ -108,7 +136,7 @@ onMounted(() => {
   min-height: 31.25rem;
 }
 #myChart {
-  max-height: 500px;
-  height: 500px;
+  width: 100vw;
+  height: 800px;
 }
 </style>
